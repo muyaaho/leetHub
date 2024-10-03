@@ -1,45 +1,37 @@
 import java.util.*;
 
 class Solution {
-    ArrayList<Integer> sarr;
+    Integer[] sarr;
     public int[] findRightInterval(int[][] intervals) {
         int[] answer = new int[intervals.length];
-        ArrayList<Integer> arr = new ArrayList<>();
         HashMap<Integer, Integer> dict = new HashMap<>();
         for (int i = 0; i < intervals.length; i++) {
             dict.put(intervals[i][0], i);
-            arr.add(intervals[i][0]);
         }
 
-        sarr = new ArrayList<>(arr);
-        Collections.sort(sarr);
+        sarr = dict.keySet().toArray(new Integer[0]);
+        Arrays.sort(sarr);
 
         for (int i = 0; i < intervals.length; i++) {
-            int end = intervals[i][1];
-            int idx = findIdx(end);
-            
+            int idx = findIdx(intervals[i][1]);
+
             if (idx >= intervals.length) {
                 answer[i] = -1;
                 continue;
             }
- 
-            answer[i] = dict.get(sarr.get(idx));
+            answer[i] = dict.get(sarr[idx]);
         }
         return answer;
     }
 
     private int findIdx(int target) {
-        int left = 0, right = sarr.size();
+        int left = 0, right = sarr.length;
 
         while (left < right) {
             int mid = (left + right) / 2;
 
-            if (sarr.get(mid) < target) {
-                left = mid + 1;
-            }
-            else {
-                right = mid;
-            }
+            if (sarr[mid] < target) left = mid + 1;
+            else right = mid;
         }
 
         return left;
