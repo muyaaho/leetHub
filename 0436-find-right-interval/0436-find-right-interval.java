@@ -5,25 +5,25 @@ class Solution {
     public int[] findRightInterval(int[][] intervals) {
         int[] answer = new int[intervals.length];
         ArrayList<Integer> arr = new ArrayList<>();
-        for (int[] interval: intervals) {
-            arr.add(interval[0]);
+        HashMap<Integer, Integer> dict = new HashMap<>();
+        for (int i = 0; i < intervals.length; i++) {
+            dict.put(intervals[i][0], i);
+            arr.add(intervals[i][0]);
         }
 
         sarr = new ArrayList<>(arr);
         Collections.sort(sarr);
-        // System.out.println(arr);
-        // System.out.println(sarr);
+
         for (int i = 0; i < intervals.length; i++) {
             int end = intervals[i][1];
             int idx = findIdx(end);
             
-            
-
             if (idx >= intervals.length) {
                 answer[i] = -1;
                 continue;
             }
-            answer[i] = arr.indexOf(sarr.get(idx));
+ 
+            answer[i] = dict.get(sarr.get(idx));
         }
         return answer;
     }
@@ -41,8 +41,6 @@ class Solution {
                 right = mid;
             }
         }
-
-        // System.out.println("end: " + target + ", idx: " + (left));
 
         return left;
     }
